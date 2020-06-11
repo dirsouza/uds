@@ -12,7 +12,7 @@ yarn-debug.log*
 yarn-error.log*
 pnpm-debug.log*
 
-# Log locks
+# Locks
 package.lock.json
 yarn.lock
 
