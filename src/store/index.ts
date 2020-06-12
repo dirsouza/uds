@@ -2,7 +2,7 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 import createPersistedState from 'vuex-persistedstate'
 import SecureLs from 'secure-ls'
-import Pedido from "@/store/modules/pedido";
+import { Pedido } from './modules'
 
 Vue.use(Vuex)
 
