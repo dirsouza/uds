@@ -1,13 +1,14 @@
 <template>
   <div>
-    <v-subheader class="px-0">Adicionais:</v-subheader>
+    <v-subheader class="px-0">Adicionais (opcional)</v-subheader>
     <v-list subheader shaped>
       <v-list-item-group multiple>
-        <template v-for="(adicional, aIndex) of adicionais">
+        <template v-for="(adicional, index) of adicionais">
           <v-list-item
-            :key="`item-${aIndex}`"
+            :key="`adicional-${index}`"
             :value="adicional.nome"
             active-class="deep-purple--text text--darken-4"
+            @click="selectAdicional(adicional)"
           >
             <template v-slot:default="{ active, toggle }">
               <v-list-item-action>
@@ -19,7 +20,16 @@
                 />
               </v-list-item-action>
               <v-list-item-content>
-                <v-list-item-title v-text="adicional.nome"/>
+                <v-row class="ma-auto">
+                  <v-col class="pa-0">
+                    <v-list-item-title class="text-capitalize" v-text="adicional.nome"/>
+                  </v-col>
+                  <v-col v-if="adicional.valor > 0" class="pa-0 text-right">
+                    <v-list-item-subtitle>
+                      + {{ $helpers.formatarValor.format(adicional.valor) }}
+                    </v-list-item-subtitle>
+                  </v-col>
+                </v-row>
               </v-list-item-content>
             </template>
           </v-list-item>
@@ -31,7 +41,10 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator'
+import { namespace } from 'vuex-class'
 import { IAdicional } from '@/interfaces'
+
+const moduloAdicional = namespace('sacola')
 
 @Component({
   name: 'ListaAdicional'
@@ -54,5 +67,12 @@ export default class ListaAdicional extends Vue {
       valor: 3
     }
   ]
+
+  @moduloAdicional.Action
+  public insertAdicional!: Function
+
+  public selectAdicional (adicional: IAdicional): void {
+    this.insertAdicional(adicional)
+  }
 }
 </script>

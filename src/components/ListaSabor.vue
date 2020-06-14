@@ -1,13 +1,14 @@
 <template>
   <div>
-    <v-subheader class="px-0">Sabores:</v-subheader>
+    <v-subheader class="px-0">Sabores (obrigatório)</v-subheader>
     <v-list subheader shaped>
       <v-list-item-group>
-        <template v-for="(sabor, sIndex) of sabores">
+        <template v-for="(sabor, index) of sabores">
           <v-list-item
-            :key="`item-${sIndex}`"
+            :key="`sabor-${index}`"
             :value="sabor.nome"
             active-class="deep-purple--text text--darken-4"
+            @click="selectSabor(sabor)"
           >
             <template v-slot:default="{ active, toggle }">
               <v-list-item-action>
@@ -19,7 +20,7 @@
                 />
               </v-list-item-action>
               <v-list-item-content>
-                <v-list-item-title v-text="sabor.nome"/>
+                <v-list-item-title class="text-capitalize" v-text="sabor.nome"/>
               </v-list-item-content>
             </template>
           </v-list-item>
@@ -31,7 +32,10 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator'
+import { namespace } from 'vuex-class'
 import { ISabor } from '@/interfaces'
+
+const moduloSabor = namespace('sacola')
 
 @Component({
   name: 'ListaSabor'
@@ -51,5 +55,13 @@ export default class ListaSabor extends Vue {
       tempo_preparo: 5
     }
   ]
+
+  @moduloSabor.Action
+  public insertSabor!: Function
+
+  public selectSabor (sabor: ISabor): void {
+    console.log(sabor)
+    this.insertSabor(sabor)
+  }
 }
 </script>

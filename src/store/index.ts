@@ -1,8 +1,9 @@
 import Vue from 'vue'
-import Vuex from 'vuex'
+import Vuex, { StoreOptions } from 'vuex'
 import createPersistedState from 'vuex-persistedstate'
 import SecureLs from 'secure-ls'
-import { Pedido } from './modules'
+import { IRootState } from '@/interfaces'
+import { load, notificacao, produto, sabor, sacola } from '@/store/modules'
 
 Vue.use(Vuex)
 
@@ -12,15 +13,16 @@ const ls = new SecureLs({
   encryptionSecret: process.env.VUE_APP_VUEX_SECRET
 })
 
-export default new Vuex.Store({
+const store: StoreOptions<IRootState> = {
   state: {
-  },
-  mutations: {
-  },
-  actions: {
+    version: '1.0.0'
   },
   modules: {
-    Pedido
+    load,
+    notificacao,
+    sabor,
+    produto,
+    sacola
   },
   plugins: [
     createPersistedState({
@@ -31,4 +33,6 @@ export default new Vuex.Store({
       }
     })
   ]
-})
+}
+
+export default new Vuex.Store<IRootState>(store)

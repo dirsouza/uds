@@ -29,38 +29,50 @@
         color="deep-purple darken-3"
         text
         block
-        @click="abrirPedido(produto)"
+        @click="formPedido"
       >
-        Comprar
+        selecionar
       </v-btn>
     </v-card-actions>
-
-    <Pedido :dialog="dialogPedido" />
-
   </v-card>
 </template>
 
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator'
-import Pedido from '@/components/Pedido.vue'
+import { namespace } from 'vuex-class'
 import { IProduto } from '@/interfaces'
 
+const moduloSacola = namespace('sacola')
+const moduloLoad = namespace('load')
+
 @Component({
-  name: 'Produto',
-  components: {
-    Pedido
-  }
+  name: 'Produto'
 })
 export default class Produto extends Vue {
   @Prop({
     type: Object,
     required: true
-  }) readonly produto?: IProduto;
+  }) readonly produto!: IProduto
 
-  private dialogPedido = false
+  @moduloSacola.Action
+  public insertProduto!: Function
 
-  public abrirPedido (produto: IProduto): void {
-    this.dialogPedido = true
+  @moduloSacola.Mutation
+  public clearSaborAndAdicionais!: Function
+
+  @moduloLoad.Action
+  public insertLoad!: Function
+
+  public async formPedido () {
+    try {
+      await this.insertLoad(true)
+      await this.insertProduto(this.produto)
+      this.clearSaborAndAdicionais()
+      await this.insertLoad(false)
+      this.$emit('openDialog', true)
+    } catch (e) {
+      console.error(e)
+    }
   }
 }
 </script>
