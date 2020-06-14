@@ -4,7 +4,7 @@ import defaultState from '@/store/modules/produto/defaultState'
 
 const mutations: MutationTree<IStateProduto> = {
   setProduto (state, produto: IProduto): void {
-    state.produto = produto
+    Object.assign(state, produto)
   },
 
   clearProduto (state): void {

@@ -3,7 +3,7 @@ import { IStateProduto, IRootState, IProduto } from '@/interfaces'
 
 const getters: GetterTree<IStateProduto, IRootState> = {
   getProduto (state): IProduto {
-    return state.produto
+    return state
   }
 }
 

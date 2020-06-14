@@ -60,7 +60,6 @@ export default class ListaSabor extends Vue {
   public insertSabor!: Function
 
   public selectSabor (sabor: ISabor): void {
-    console.log(sabor)
     this.insertSabor(sabor)
   }
 }

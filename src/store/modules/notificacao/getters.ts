@@ -3,11 +3,11 @@ import { INotificacao, IRootState, IStateNotificacao } from '@/interfaces'
 
 const getters: GetterTree<IStateNotificacao, IRootState> = {
   getStartNotificacao (state): boolean {
-    return state.notificacao.start
+    return state.start
   },
 
   getNoficacao (state): INotificacao {
-    return state.notificacao
+    return state
   }
 }
 

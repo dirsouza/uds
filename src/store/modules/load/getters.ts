@@ -3,7 +3,7 @@ import { IRootState, IStateLoad } from '@/interfaces'
 
 const getters: GetterTree<IStateLoad, IRootState> = {
   getStartLoad (state): boolean {
-    return state.startLoad.start
+    return state.start
   }
 }
 

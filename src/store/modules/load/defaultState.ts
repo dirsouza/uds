@@ -1,9 +1,7 @@
 import { IStateLoad } from '@/interfaces'
 
 const defaultState = (): IStateLoad => ({
-  startLoad: {
-    start: false
-  }
+  start: false
 })
 
 export default defaultState

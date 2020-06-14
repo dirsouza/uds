@@ -49,21 +49,13 @@ export interface IStateAdicional {
   adicionais: IAdicional[]
 }
 
-export interface IStateLoad {
-  startLoad: ILoad;
-}
+export interface IStateLoad extends ILoad {}
 
-export interface IStateNotificacao {
-  notificacao: INotificacao;
-}
+export interface IStateNotificacao extends INotificacao {}
 
-export interface IStateProduto {
-  produto: IProduto
-}
+export interface IStateProduto extends IProduto {}
 
-export interface IStateSabor {
-  sabor: ISabor
-}
+export interface IStateSabor extends ISabor {}
 
 export interface IStateSacola {
   pedidos: ISacola[];

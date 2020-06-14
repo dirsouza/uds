@@ -3,7 +3,7 @@ import Vuex, { StoreOptions } from 'vuex'
 import createPersistedState from 'vuex-persistedstate'
 import SecureLs from 'secure-ls'
 import { IRootState } from '@/interfaces'
-import { load, notificacao, produto, sabor, sacola } from '@/store/modules'
+import { adicional, load, notificacao, produto, sabor, sacola } from '@/store/modules'
 
 Vue.use(Vuex)
 
@@ -18,10 +18,11 @@ const store: StoreOptions<IRootState> = {
     version: '1.0.0'
   },
   modules: {
+    adicional,
     load,
     notificacao,
-    sabor,
     produto,
+    sabor,
     sacola
   },
   plugins: [
@@ -32,7 +33,9 @@ const store: StoreOptions<IRootState> = {
         removeItem: (key) => ls.remove(key)
       }
     })
-  ]
+  ],
+  strict: process.env.NODE_ENV === 'development',
+  devtools: process.env.NODE_ENV === 'development'
 }
 
 export default new Vuex.Store<IRootState>(store)

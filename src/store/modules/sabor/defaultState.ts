@@ -1,7 +1,8 @@
 import { IStateSabor } from '@/interfaces'
 
 const defaultState = (): IStateSabor => ({
-  sabor: {}
+  nome: '',
+  tempo_preparo: 0
 })
 
 export default defaultState

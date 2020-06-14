@@ -1,8 +1,8 @@
 import { ActionTree } from "vuex";
-import { IRootState, IStateLoad } from "@/interfaces";
+import { ILoad, IRootState, IStateLoad } from "@/interfaces";
 
 const actions: ActionTree<IStateLoad, IRootState> = {
-  insertLoad ({ commit }, start: boolean): Promise<boolean> {
+  insertLoad ({ commit }, start: ILoad): Promise<boolean> {
     return new Promise<boolean>((resolve, reject) => {
       try {
         commit('setStartLoad', start)
