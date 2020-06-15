@@ -1,5 +1,5 @@
 import { MutationTree } from 'vuex'
-import { ILoad, IStateLoad } from '@/interfaces'
+import { IStateLoad } from '@/interfaces'
 
 const mutations: MutationTree<IStateLoad> = {
   setStartLoad (state, load: boolean): void {

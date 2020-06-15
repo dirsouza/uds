@@ -50,16 +50,16 @@ export interface ISacola {
 }
 
 export interface IStateAdicional {
-  adicionais: IAdicional[]
+  adicionais: IAdicional[];
 }
 
-export interface IStateLoad extends ILoad {}
+export type IStateLoad = ILoad
 
-export interface IStateNotificacao extends INotificacao {}
+export type IStateNotificacao = INotificacao
 
-export interface IStateProduto extends IProduto {}
+export type IStateProduto = IProduto
 
-export interface IStateSabor extends ISabor {}
+export type IStateSabor = ISabor
 
 export interface IStateSacola {
   pedidos: ISacola[];

@@ -10,7 +10,7 @@
           dark
           v-bind="attrs"
           v-on="on"
-          @click="openDialog = true"
+          :to="{ name: 'Sacola' }"
         >
           <v-badge
             :content="totalPedidos"
@@ -24,29 +24,20 @@
       </template>
       <span>Sacola</span>
     </v-tooltip>
-
-    <ResumoSacola
-      :dialog="openDialog"
-      @closeDialog="openDialog = $event"
-    />
   </div>
 </template>
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator'
 import { namespace } from 'vuex-class'
-import ResumoSacola from '@/components/ResumoSacola.vue'
 import { ISacola } from '@/interfaces'
 
 const moduloSacola = namespace('sacola')
 
 @Component({
-  name: 'Sacola',
-  components: {
-    ResumoSacola
-  }
+  name: 'ButtomSacola'
 })
-export default class Sacola extends Vue {
+export default class ButtomSacola extends Vue {
   @moduloSacola.Getter
   public getSacola!: ISacola[]
 

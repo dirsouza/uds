@@ -6,13 +6,15 @@
       color="purple darken-2"
       dark
     >
-      <v-toolbar-title>{{ title }}</v-toolbar-title>
+      <router-link :to="{ name: 'Catalogo' }" class="decoration-none white--text">
+        <v-toolbar-title>{{ title }}</v-toolbar-title>
+      </router-link>
       <v-spacer />
       <Sacola />
     </v-app-bar>
 
     <v-content>
-      <Catalogo />
+      <router-view />
       <Notificacao />
       <Load />
     </v-content>
@@ -23,7 +25,7 @@
 import { Vue, Component } from 'vue-property-decorator'
 import { namespace } from 'vuex-class'
 import Catalogo from '@/views/Catalogo.vue'
-import Sacola from '@/components/Sacola.vue'
+import Sacola from '@/components/ButtomSacola.vue'
 import Notificacao from '@/components/Notificacao.vue'
 import Load from '@/components/Load.vue'
 
@@ -51,3 +53,9 @@ export default class App extends Vue {
   }
 }
 </script>
+
+<style scoped lang="scss">
+  .decoration-none {
+    text-decoration: none !important;
+  }
+</style>
