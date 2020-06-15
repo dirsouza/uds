@@ -42,7 +42,7 @@ import { Component, Prop, Vue } from 'vue-property-decorator'
 import { namespace } from 'vuex-class'
 import { IProduto } from '@/interfaces'
 
-const moduloSacola = namespace('sacola')
+const moduloProduto = namespace('produto')
 const moduloLoad = namespace('load')
 
 @Component({
@@ -54,11 +54,8 @@ export default class Produto extends Vue {
     required: true
   }) readonly produto!: IProduto
 
-  @moduloSacola.Action
+  @moduloProduto.Action
   public insertProduto!: Function
-
-  @moduloSacola.Mutation
-  public clearSaborAndAdicionais!: Function
 
   @moduloLoad.Action
   public insertLoad!: Function
@@ -67,7 +64,6 @@ export default class Produto extends Vue {
     try {
       await this.insertLoad(true)
       await this.insertProduto(this.produto)
-      this.clearSaborAndAdicionais()
       await this.insertLoad(false)
       this.$emit('openDialog', true)
     } catch (e) {

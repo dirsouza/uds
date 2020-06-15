@@ -35,7 +35,7 @@ import { Component, Vue } from 'vue-property-decorator'
 import { namespace } from 'vuex-class'
 import { ISabor } from '@/interfaces'
 
-const moduloSabor = namespace('sacola')
+const moduloSabor = namespace('sabor')
 
 @Component({
   name: 'ListaSabor'

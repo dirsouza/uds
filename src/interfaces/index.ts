@@ -37,12 +37,13 @@ export interface ISabor {
 type TAdicional = Pick<IAdicional, 'nome' | 'valor'>
 
 export interface ISacola {
+  nome?: string;
   tamanho?: number;
   unidade?: string;
   sabor?: string;
-  personalizacao?: TAdicional[];
-  tempo_preparo?: number;
-  valor_total?: number;
+  adicionais?: TAdicional[];
+  tempo?: number;
+  valor?: number;
 }
 
 export interface IStateAdicional {

@@ -24,7 +24,7 @@
           </v-btn>
         </v-col>
         <v-col class="py-0 text-right">
-          <v-btn small outlined dark color="deep-purple darken-3" @click="onPedir">
+          <v-btn small outlined dark color="deep-purple darken-3" @click="adicionarPedido">
             adicionar <v-icon right>mdi-check-circle-outline</v-icon>
           </v-btn>
         </v-col>
@@ -40,6 +40,9 @@ import ListaSabor from '@/components/ListaSabor.vue'
 import ListaAdicional from '@/components/ListaAdicional.vue'
 import { INotificacao, ISabor } from '@/interfaces'
 
+const moduloProduto = namespace('produto')
+const moduloSabor = namespace('sabor')
+const moduloAdicional = namespace('adicional')
 const moduloSacola = namespace('sacola')
 const moduloNotificacao = namespace('notificacao')
 
@@ -57,28 +60,59 @@ export default class Pedido extends Vue {
     default: false
   }) public dialog!: boolean
 
-  @moduloSacola.Getter
+  @moduloSabor.Getter
   public getSabor!: ISabor
 
   @moduloSacola.Action
   public insertPedido!: Function
+
+  @moduloProduto.Mutation
+  public clearProduto!: Function
+
+  @moduloSabor.Mutation
+  public clearSabor!: Function
+
+  @moduloAdicional.Mutation
+  public clearAdicionais!: Function
 
   @moduloNotificacao.Action
   public insertNotificacao!: Function
 
   @Emit('closeDialog')
   onClose () {
+    this.cancelarPedido()
     return false
   }
 
-  public onPedir () {
-    if (Object.keys(this.getSabor).length) {
+  public cancelarPedido () {
+    this.clearProduto()
+    this.clearSabor()
+    this.clearAdicionais()
+    this.insertNotificacao({
+      start: true,
+      color: 'primary',
+      message: 'Pedido cancelado com sucesso!',
+      timeout: 3000
+    } as INotificacao)
+  }
+
+  public adicionarPedido () {
+    if (this.getSabor.nome !== '') {
       this.insertPedido()
+        .then(() => {
+          this.$emit('closeDialog', false)
+          this.insertNotificacao({
+            start: true,
+            color: 'success',
+            timeout: 3000,
+            message: 'Pedido adicionado com sucesso'
+          } as INotificacao)
+        })
     } else {
       this.insertNotificacao({
         start: true,
         color: 'warning',
-        timeout: 5000,
+        timeout: 3000,
         message: 'O Sabor não foi selecionado'
       } as INotificacao)
     }

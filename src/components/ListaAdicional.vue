@@ -44,7 +44,7 @@ import { Component, Vue } from 'vue-property-decorator'
 import { namespace } from 'vuex-class'
 import { IAdicional } from '@/interfaces'
 
-const moduloAdicional = namespace('sacola')
+const moduloAdicional = namespace('adicional')
 
 @Component({
   name: 'ListaAdicional'

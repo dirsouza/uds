@@ -7,6 +7,10 @@ const mutations: MutationTree<IStateSacola> = {
     state.pedidos.push(pedido)
   },
 
+  setMultiplePedidos (state, pedidos: ISacola[]): void {
+    state.pedidos = pedidos
+  },
+
   clearSacola (state): void {
     Object.assign(state, defaultState())
   }
