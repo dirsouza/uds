@@ -1,6 +1,7 @@
 import { IStateProduto } from '@/interfaces'
 
 const defaultState = (): IStateProduto => ({
+  id: 0,
   nome: '',
   descricao: '',
   categoria: '',

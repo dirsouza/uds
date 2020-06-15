@@ -70,14 +70,10 @@ export default class ListaResumoPedido extends Vue {
     required: true
   }) public pedido!: ISacola
 
-  mounted () {
-    console.log(this.pedido)
-  }
-
   @moduloSacola.Getter
   public getSacola!: ISacola[]
 
-  @moduloSacola.Action
+  @moduloSacola.Mutation
   public deletePedido!: Function
 
   public getAdicionaisLength (adicionais: IAdicional[]) {

@@ -25,9 +25,13 @@
 
 <script lang="ts">
 import { Vue, Component } from 'vue-property-decorator'
+import { namespace } from 'vuex-class'
 import Produto from '@/components/Produto.vue'
 import Pedido from '@/components/Pedido.vue'
-import { IProduto } from '@/interfaces'
+import { INotificacao, IProduto } from '@/interfaces'
+
+const moduloLoad = namespace('load')
+const moduloNotificacao = namespace('notificacao')
 
 @Component({
   name: 'Catalogo',
@@ -37,35 +41,34 @@ import { IProduto } from '@/interfaces'
   }
 })
 export default class Catalogo extends Vue {
-  private produtos: IProduto[] = [
-    {
-      nome: 'Frozen de Açaí',
-      descricao: 'Frozen de açaí de 300ml',
-      categoria: 'pequeno',
-      tamanho: 300,
-      unidade: 'ml',
-      valor: 10,
-      tempo_preparo: 5
-    },
-    {
-      nome: 'Frozen de Açaí',
-      descricao: 'Frozen de açaí de 500ml',
-      categoria: 'médio',
-      tamanho: 500,
-      unidade: 'ml',
-      valor: 13,
-      tempo_preparo: 7
-    },
-    {
-      nome: 'Frozen de Açaí',
-      descricao: 'Frozen de açaí de 700ml',
-      categoria: 'grande',
-      tamanho: 700,
-      unidade: 'ml',
-      valor: 15,
-      tempo_preparo: 10
+  private produtos: IProduto[] = []
+
+  mounted () {
+    this.fetchProdutos()
+  }
+
+  @moduloLoad.Action
+  public insertLoad!: Function
+
+  @moduloNotificacao.Action
+  public insertNotificacao!: Function
+
+  public async fetchProdutos () {
+    try {
+      this.insertLoad(true)
+      this.produtos = await this.$axios.get("produtos")
+        .then(res => res.data)
+      this.insertLoad(false)
+    } catch (e) {
+      this.insertLoad(false)
+      this.insertNotificacao({
+        start: true,
+        color: 'warning',
+        timeout: 3000,
+        message: e.message || 'Erro ao carregar os produtos'
+      } as INotificacao)
     }
-  ]
+  }
 
   private dialogPedido = false
 

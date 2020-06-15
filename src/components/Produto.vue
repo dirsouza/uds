@@ -65,7 +65,9 @@ export default class Produto extends Vue {
       await this.insertLoad(true)
       await this.insertProduto(this.produto)
       await this.insertLoad(false)
-      this.$emit('openDialog', true)
+        .then(() => {
+          this.$emit('openDialog', true)
+        })
     } catch (e) {
       console.error(e)
     }

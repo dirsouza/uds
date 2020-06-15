@@ -16,6 +16,7 @@ const actions: ActionTree<IStateSacola, IRootState> = {
           unidade: produto.unidade,
           sabor: sabor.nome,
           adicionais: collect(adicionais).flatMap(adc => ({
+            id: adc.id,
             nome: adc.nome,
             valor: adc.valor
           })).all(),
@@ -29,20 +30,6 @@ const actions: ActionTree<IStateSacola, IRootState> = {
         commit('produto/clearProduto', null, { root: true })
         commit('sabor/clearSabor', null, { root: true })
         commit('adicional/clearAdicionais', null, { root: true })
-        resolve()
-      } catch (e) {
-        reject(e)
-      }
-    })
-  },
-
-  deletePedido ({ state, commit }, index: number): Promise<boolean> {
-    return new Promise<boolean>((resolve, reject) => {
-      try {
-        const tempState = state.pedidos
-        tempState.splice(index, 1)
-        commit('clearSacola')
-        commit('setMultiplePedidos', tempState)
         resolve()
       } catch (e) {
         reject(e)

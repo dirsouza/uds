@@ -42,34 +42,40 @@
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator'
 import { namespace } from 'vuex-class'
-import { IAdicional } from '@/interfaces'
+import { IAdicional, INotificacao } from '@/interfaces'
 
 const moduloAdicional = namespace('adicional')
+const moduloNotificacao = namespace('notificacao')
 
 @Component({
   name: 'ListaAdicional'
 })
 export default class ListaAdicional extends Vue {
-  private adicionais: IAdicional[] = [
-    {
-      nome: 'granola',
-      tempo_preparo: 0,
-      valor: 0
-    },
-    {
-      nome: 'paçoca',
-      tempo_preparo: 3,
-      valor: 3
-    },
-    {
-      nome: 'leite ninho',
-      tempo_preparo: 0,
-      valor: 3
-    }
-  ]
+  private adicionais: IAdicional[] = []
+
+  mounted () {
+    this.fetchAdicionais()
+  }
 
   @moduloAdicional.Action
   public insertAdicional!: Function
+
+  @moduloNotificacao.Action
+  public insertNotificacao!: Function
+
+  public async fetchAdicionais () {
+    try {
+      this.adicionais = await this.$axios.get('adicionais')
+        .then(res => res.data)
+    } catch (e) {
+      this.insertNotificacao({
+        start: true,
+        color: 'warning',
+        timeout: 3000,
+        message: e.message || 'Erro ao carregar os adicionais'
+      } as INotificacao)
+    }
+  }
 
   public selectAdicional (adicional: IAdicional): void {
     this.insertAdicional(adicional)

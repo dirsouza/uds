@@ -3,6 +3,7 @@ export interface IRootState {
 }
 
 export interface IAdicional {
+  id?: number;
   nome?: string;
   valor?: number;
   tempo_preparo?: number;
@@ -20,6 +21,7 @@ export interface INotificacao {
 }
 
 export interface IProduto {
+  id?: number;
   nome?: string;
   descricao?: string;
   categoria?: string;
@@ -30,11 +32,12 @@ export interface IProduto {
 }
 
 export interface ISabor {
+  id?: number;
   nome?: string;
   tempo_preparo?: number;
 }
 
-type TAdicional = Pick<IAdicional, 'nome' | 'valor'>
+type TAdicional = Pick<IAdicional, 'id' | 'nome' | 'valor'>
 
 export interface ISacola {
   nome?: string;

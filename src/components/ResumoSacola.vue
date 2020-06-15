@@ -97,6 +97,7 @@ import TotaisResumoPedido from '@/components/TotaisResumoPedido.vue'
 import { INotificacao, ISacola } from "@/interfaces";
 
 const moduloSacola = namespace('sacola')
+const moduloLoad = namespace('load')
 const moduloNotificacao = namespace('notificacao')
 
 @Component({
@@ -119,6 +120,9 @@ export default class ResumoSacola extends Vue {
   @moduloSacola.Mutation
   public clearSacola!: Function
 
+  @moduloLoad.Action
+  public insertLoad!: Function
+
   @moduloNotificacao.Action
   public insertNotificacao!: Function
 
@@ -127,30 +131,31 @@ export default class ResumoSacola extends Vue {
     return false
   }
 
-  public confirmarPedido () {
-    new Promise<boolean>((resolve, reject) => {
-      try {
-        this.clearSacola()
-        this.onClose()
-        resolve()
-      } catch (e) {
-        reject(e)
-      }
-    }).then(() => {
+  public async confirmarPedido () {
+    try {
+      this.insertLoad(true)
+      await this.getSacola.forEach(sacola => {
+        this.$axios.post('pedidos', sacola).then(() => {
+          this.clearSacola()
+          this.insertLoad(false)
+          this.onClose()
+          this.insertNotificacao({
+            start: true,
+            color: 'success',
+            timeout: 3000,
+            message: 'Pedido realizado com sucesso'
+          } as INotificacao)
+        })
+      })
+    } catch (e) {
+      this.insertLoad(false)
       this.insertNotificacao({
         start: true,
         color: 'success',
         timeout: 3000,
-        message: 'Pedido realizado com sucesso'
+        message: e.message || 'Erro ao realizar o pedido'
       } as INotificacao)
-    }).catch((e) => {
-      this.insertNotificacao({
-        start: true,
-        color: 'success',
-        timeout: 3000,
-        message: e.message
-      } as INotificacao)
-    })
+    }
   }
 }
 </script>

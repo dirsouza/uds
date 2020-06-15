@@ -33,31 +33,40 @@
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator'
 import { namespace } from 'vuex-class'
-import { ISabor } from '@/interfaces'
+import { INotificacao, ISabor } from '@/interfaces'
 
 const moduloSabor = namespace('sabor')
+const moduleNotificacao = namespace('notificacao')
 
 @Component({
   name: 'ListaSabor'
 })
 export default class ListaSabor extends Vue {
-  private sabores: ISabor[] = [
-    {
-      nome: 'morango',
-      tempo_preparo: 0
-    },
-    {
-      nome: 'banana',
-      tempo_preparo: 0
-    },
-    {
-      nome: 'kiwi',
-      tempo_preparo: 5
-    }
-  ]
+  private sabores: ISabor[] = []
+
+  mounted () {
+    this.fetchSabores()
+  }
 
   @moduloSabor.Action
   public insertSabor!: Function
+
+  @moduleNotificacao.Action
+  public insertNotificacao!: Function
+
+  public async fetchSabores () {
+    try {
+      this.sabores = await this.$axios.get('sabores')
+        .then(res => res.data)
+    } catch (e) {
+      this.insertNotificacao({
+        start: true,
+        color: 'warning',
+        timeout: 3000,
+        message: e.message || 'Erro ao carregar os sabores'
+      } as INotificacao)
+    }
+  }
 
   public selectSabor (sabor: ISabor): void {
     this.insertSabor(sabor)

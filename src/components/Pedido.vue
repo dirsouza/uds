@@ -44,6 +44,7 @@ const moduloProduto = namespace('produto')
 const moduloSabor = namespace('sabor')
 const moduloAdicional = namespace('adicional')
 const moduloSacola = namespace('sacola')
+const moduloLoad = namespace('load')
 const moduloNotificacao = namespace('notificacao')
 
 @Component({
@@ -75,6 +76,9 @@ export default class Pedido extends Vue {
   @moduloAdicional.Mutation
   public clearAdicionais!: Function
 
+  @moduloLoad.Action
+  public insertLoad!: Function
+
   @moduloNotificacao.Action
   public insertNotificacao!: Function
 
@@ -98,9 +102,11 @@ export default class Pedido extends Vue {
 
   public adicionarPedido () {
     if (this.getSabor.nome !== '') {
+      this.insertLoad(true)
       this.insertPedido()
         .then(() => {
           this.$emit('closeDialog', false)
+          this.insertLoad(false)
           this.insertNotificacao({
             start: true,
             color: 'success',
